@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "EncryptService";
+}
+
+<h2>Шифрование</h2>
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{   
+    <table>
+        <tr>
+            <td><p>Введите сообщение: </p></td>            
+        </tr>       
+        <tr>
+            <td><input type="text" name="Message" /> </td>
+        </tr>
+        <tr>
+            <td><input class="btn btn-default" type="submit" value="Отправить" /> </td>
+            <td></td>
+        </tr>
+    </table>
+}
+<div> Зашифрованные сообщения:
+    @if (ViewBag.UserTextModels != null)
+    {
+        <table>
+            @foreach (var elem in ViewBag.UserTextModels)
+        {
+            <tr>                
+                <td>@elem.EncrMessage</td>
+            </tr>
+        }
+            <tr>
+                <td>@Html.ActionLink("Очистить", "Clear")</td>
+            </tr>
+        </table>
+    }
+    
+</div>
