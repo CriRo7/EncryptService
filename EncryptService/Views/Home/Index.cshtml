@@ -1,37 +1,51 @@
 ﻿@{
     ViewBag.Title = "EncryptService";
 }
+<script type="text/javascript">
+    var app = angular.module('MyApp', [])
+    app.controller('MyController', function ($scope, $http, $window) {
+        $scope.ButtonClick = function () {
+            var post = $http({
+                method: "POST",
+                url: "/Home/Index",
+                dataType: 'json',
+                data: { message: $scope.message },
+                headers: { "Content-Type": "application/json" }
+            });
+
+            post.success(function (data, status) {
+                $window.alert("Ваше сообщение: " + data.Models/* + " \nЗашифрованное сообщение: " + data.EncrMessage*/);
+                $scope.models = data.Models;
+            });
+
+            post.error(function (data, status) {
+                $window.alert(data.Message);
+            });
+        }
+    });
+</script>
 
 <h2>Шифрование</h2>
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
-{   
+
+ <div ng-app="MyApp" ng-controller="MyController">
     <table>
         <tr>
-            <td><p>Введите сообщение: </p></td>            
-        </tr>       
-        <tr>
-            <td><input type="text" name="Message" /> </td>
+            <td><p>Введите сообщение: </p></td>
         </tr>
         <tr>
-            <td><input class="btn btn-default" type="submit" value="Отправить" /> </td>
+            <td><input type="text" ng-model="message" /> </td>
+        </tr>
+        <tr>
+            <td><input class="btn btn-default" type="submit" ng-click="ButtonClick()" value="Отправить" /> </td>
             <td></td>
         </tr>
     </table>
-}
-<div> Зашифрованные сообщения:
-    @if (ViewBag.UserTextModels != null)
-    {
-        <table>
-            @foreach (var elem in ViewBag.UserTextModels)
-        {
-            <tr>                
-                <td>@elem.EncrMessage</td>
-            </tr>
-        }
-            <tr>
-                <td>@Html.ActionLink("Очистить", "Clear")</td>
-            </tr>
-        </table>
-    }
-    
-</div>
+
+     <ul>
+         <li ng-repeat="model in models">{{ model.EncrMessage }}</li>
+     </ul>
+</div>    
+
+
+
+

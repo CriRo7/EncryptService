@@ -26,7 +26,7 @@ namespace EncryptService.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string message)
+        public JsonResult Index(string message)
         {
             try
             {                
@@ -34,15 +34,17 @@ namespace EncryptService.Controllers
                 UserTextModel utm = new UserTextModel() { Message = message, EncrMessage = EncryptMethod(message), DateTime = DateTime.Now };
                 db.UserTextModels.Add(utm);
                 db.SaveChanges();
-                //получение зашифрованных сообщений 
-                ViewBag.UserTextModels = db.UserTextModels.ToList();
+
+                var models = db.UserTextModels;
+                //отправка модели в виде Json        
+                return Json(new { Models = models});
             }
             catch (Exception ex)
             {
                 //Вывести ошибку подключения к бд.
-                return HttpNotFound();
+                return Json(ex.Message);
             }
-            return View();
+           
         }
 
         /// <summary>
