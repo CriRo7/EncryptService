@@ -14,7 +14,7 @@
             });
 
             post.success(function (data, status) {
-                $window.alert("Ваше сообщение: " + data.Models/* + " \nЗашифрованное сообщение: " + data.EncrMessage*/);
+                //$window.alert("Ваше сообщение: " + data.Models/* + " \nЗашифрованное сообщение: " + data.EncrMessage*/);
                 $scope.models = data.Models;
             });
 
@@ -41,6 +41,7 @@
         </tr>
     </table>
 
+Зашифрованные сообщения:
      <ul>
          <li ng-repeat="model in models">{{ model.EncrMessage }}</li>
      </ul>
